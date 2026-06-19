@@ -20,12 +20,15 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // Spring MVC (webmvc 아닌 web 써야 src/main/webapp 인식됨)
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
     // JSP 렌더링 엔진 (없으면 JSP 못 찾음)
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 
     // JSTL 사용 시 (c:if, c:forEach 등)
     implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+    runtimeOnly 'org.glassfish.web:jakarta.servlet.jsp.jstl'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'

@@ -6,49 +6,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
     <title>스터디~</title>
-    <style>
-        /*body * {*/
-        /*    border: 1px solid red;*/
-        /*}*/
-        header {
-            display: flex;
-        }
-        section {
-            height: 70%;
-        }
-        .header-left-container, .header-right-container {
-            width: 100%;
-            height: 100%;
-        }
-        .header-right-container {
-            display: grid;
-        }
-        .align-right{
-            text-align: right;
-        }
-        .mypage-a {
-            text-align: right;
-            color: magenta;
-        }
-        .content-ul {
-            display: flex;
-            justify-content: space-between;
-            padding-left: 30px;
-            padding-right: 30px;
-        }
-        a {
-            text-decoration: none;
-            color: black;
-        }
-
-        li {
-            list-style: none;
-        }
-    </style>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/index.css">
 </head>
 <body>
     <header>
