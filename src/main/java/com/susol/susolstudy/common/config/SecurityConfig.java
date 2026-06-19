@@ -22,10 +22,10 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/auth/login")
+                .loginPage("/auth/login").permitAll()
                 .usernameParameter("username")
                 .passwordParameter("userPassword")
-                .loginProcessingUrl("/login")
+                .loginProcessingUrl("/auth/login")
                 .defaultSuccessUrl("/main/home", true)
             );
 

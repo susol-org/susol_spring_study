@@ -12,7 +12,8 @@
 </head>
 <body>
     <div>
-        <form action="<%= request.getContextPath() %>/login" method="post">
+        <form action="<%= request.getContextPath() %>/auth/login" method="post">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <div>
                 <label for="usernameInput">아이디</label>
                 <input type="text" name="username" id="usernameInput" placeholder="아이디"><br>
