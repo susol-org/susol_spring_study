@@ -19,9 +19,10 @@ public class StudyService {
 
     public List<Object> selectStudy() {
         // object에 스터디 객체 들어갈거임
+        return null;
     }
 
-    public Object getStudyDetail() {}
+    public Object getStudyDetail() {return null;}
 
     public void closeStudy() {}
 
