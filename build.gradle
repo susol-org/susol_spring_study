@@ -28,6 +28,8 @@ dependencies {
 
     // JSTL 사용 시 (c:if, c:forEach 등)
     implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
     runtimeOnly 'org.glassfish.web:jakarta.servlet.jsp.jstl'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
