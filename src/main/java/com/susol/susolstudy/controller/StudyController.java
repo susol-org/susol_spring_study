@@ -9,7 +9,7 @@ public class StudyController {
 
 
     @GetMapping("/studies")
-    public List<Object> selectStudy() {}
+    public List<Object> selectStudy() {return null}
 
 
     @PostMapping("/studies")
@@ -22,7 +22,7 @@ public class StudyController {
     public void deleteStudy() {}
 
     @GetMapping("/studies/{id}")
-    public Object  getStudyDetail() {}
+    public Object  getStudyDetail() {return null}
 
     @PatchMapping("/studies/{id}/close")
     public void closeStudy() {}
