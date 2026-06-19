@@ -18,10 +18,13 @@ public class SecurityConfig {
             .cors(cors -> cors.disable())
             .authorizeHttpRequests(request -> request
                 .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                .requestMatchers("/login", "/error", "/main/home","/css/**", "/js/**").permitAll()
+                .requestMatchers("/login", "/error", "/", "/main/home","/css/**", "/js/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
+                .loginPage("/auth/login")
+                .usernameParameter("username")
+                .passwordParameter("userPassword")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/main/home", true)
             );
