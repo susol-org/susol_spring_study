@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,16 +18,16 @@ public class PostResponseDTO {
     private String postType;
     private String postTitle;
     private int postViewCount;
-    private LocalDateTime postCreatedAt;
+    private String postCreatedAt;
 
     public static PostResponseDTO entityOf(Post post) {
         return new PostResponseDTO(
             post.getPostId(),
             post.getUser().getUserEmailId(),
-            post.getPostType().name(),
+            post.getPostType().getKoreanName(),
             post.getPostTitle(),
             post.getPostViewCount(),
-            post.getPostCreatedAt()
+            post.getPostCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
         );
     }
 }

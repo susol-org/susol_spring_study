@@ -3,6 +3,7 @@ package com.susol.susolstudy.controller;
 import com.susol.susolstudy.model.dto.MyStudyListResponseDTO;
 import com.susol.susolstudy.model.dto.PostResponseDTO;
 import com.susol.susolstudy.service.PostService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +29,8 @@ public class PostController {
         return "studypost/studypost";
     }
 
-    @GetMapping("/post/{studyId}")
+    // 게시물 리스트
+    @GetMapping("/{studyId}/post")
     public String getPostByStudyId(@PathVariable int studyId,
                                                     @AuthenticationPrincipal UserDetails user,
                                                   Model model) {
@@ -37,5 +39,10 @@ public class PostController {
         return "studypost/studypostlist";
     }
 
+    //게시물 상세
+    @GetMapping("/post/{postId}")
+    public String postDetail() {
+        return null;
+    }
 
 }
