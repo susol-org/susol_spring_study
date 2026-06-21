@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,14 +20,10 @@ public class PostController {
     private final PostService service;
 
     @GetMapping("/post")
-    public String studyPostPage() {
+    public String studyPostPage(@AuthenticationPrincipal UserDetails user, Model model) {
+        List<MyStudyListResponseDTO> responseDTOList = service.getMyStudyList(user.getUsername());
+        model.addAttribute("studyList", responseDTOList);
         return "studypost/studypost";
-    }
-
-    //내 스터디 가져오기
-    @GetMapping("/list")
-    public List<MyStudyListResponseDTO> getMyStudyList(@AuthenticationPrincipal UserDetails user) {
-        return service.getMyStudyList(user.getUsername());
     }
 
 
