@@ -9,11 +9,9 @@ import com.susol.susolstudy.model.dto.PostResponseDTO;
 import com.susol.susolstudy.model.dto.PostWriteRequestDTO;
 import com.susol.susolstudy.model.entity.Post;
 import com.susol.susolstudy.model.entity.StudyMember;
-import com.susol.susolstudy.model.entity.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
