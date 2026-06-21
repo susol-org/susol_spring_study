@@ -38,13 +38,13 @@
         <c:otherwise>
             <p class="empty">등록된 게시물이 없습니다.</p>
         </c:otherwise>
-        <div>
-            <button onclick="goPostWritePage();">게시글작성</button>
-        </div>
     </c:choose>
+    <div>
+        <button onclick="goPostWritePage();">게시글작성</button>
+    </div>
     <script>
         const goPostWritePage = () => {
-            location.assign("<c:url value='/study/${studyId}/post' /> ")
+            location.assign("<c:url value='/study/${studyId}/post/write' /> ")
         }
     </script>
 </body>

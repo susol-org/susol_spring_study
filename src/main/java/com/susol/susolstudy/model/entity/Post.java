@@ -1,19 +1,17 @@
 package com.susol.susolstudy.model.entity;
 
+import com.susol.susolstudy.model.dto.PostWriteRequestDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.internal.build.AllowNonPortable;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Builder
 @Entity
 public class Post {
 
@@ -34,6 +32,7 @@ public class Post {
 
     private String postTitle;
 
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String postContent;
 
     @ColumnDefault("0")
@@ -42,7 +41,20 @@ public class Post {
 
     private boolean postDelete;
 
+    @CreationTimestamp
+    @Column(nullable = false)
     private LocalDateTime postCreatedAt;
 
     private LocalDateTime postUpdatedAt;
+
+    public static Post create(Study study, User user, PostWriteRequestDTO postDTO) {
+        Post post = new Post();
+        post.study = study;
+        post.user = user;
+        post.postType = postDTO.getPostType();
+        post.postTitle = postDTO.getPostTitle();
+        post.postContent = postDTO.getPostContent();
+
+        return post;
+    }
 }

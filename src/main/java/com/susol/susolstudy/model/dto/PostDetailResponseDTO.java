@@ -30,7 +30,8 @@ public class PostDetailResponseDTO {
                 post.getPostContent(),
                 post.getPostViewCount(),
                 post.getPostCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
-                post.getPostUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                post.getPostUpdatedAt() != null ?
+                        post.getPostUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) : null
         );
     }
 }
