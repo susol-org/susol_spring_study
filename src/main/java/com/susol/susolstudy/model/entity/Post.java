@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.internal.build.AllowNonPortable;
 
 import java.time.LocalDateTime;
@@ -20,9 +21,12 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
 
-//    private Study study;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "study_id")
+    private Study study;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Enumerated(value = EnumType.STRING)
@@ -31,6 +35,10 @@ public class Post {
     private String postTitle;
 
     private String postContent;
+
+    @ColumnDefault("0")
+    @Column(nullable = false)
+    private int postViewCount;
 
     private boolean postDelete;
 
