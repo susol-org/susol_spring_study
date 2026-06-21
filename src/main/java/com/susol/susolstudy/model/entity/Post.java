@@ -1,9 +1,6 @@
 package com.susol.susolstudy.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,14 +15,17 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
 
 //    private Study study;
 
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
+    @Enumerated(value = EnumType.STRING)
     private PostType postType;
 
     private String postTitle;
