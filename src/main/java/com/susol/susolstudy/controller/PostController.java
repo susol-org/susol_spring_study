@@ -1,7 +1,9 @@
 package com.susol.susolstudy.controller;
 
 import com.susol.susolstudy.model.dto.MyStudyListResponseDTO;
+import com.susol.susolstudy.model.dto.PostDetailResponseDTO;
 import com.susol.susolstudy.model.dto.PostResponseDTO;
+import com.susol.susolstudy.model.entity.Post;
 import com.susol.susolstudy.service.PostService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -36,13 +38,18 @@ public class PostController {
                                                   Model model) {
         List<PostResponseDTO> posts = service.getPostList(studyId, user.getUsername());
         model.addAttribute("postList", posts);
+        model.addAttribute("studyId", studyId);
         return "studypost/studypostlist";
     }
 
     //게시물 상세
-    @GetMapping("/post/{postId}")
-    public String postDetail() {
-        return null;
+    @GetMapping("/{studyId}/post/{postId}")
+    public String postDetail(@AuthenticationPrincipal UserDetails user,
+                             @PathVariable int postId, @PathVariable int studyId,
+                             Model model) {
+        PostDetailResponseDTO postDetail = service.getPostByPostId(user.getUsername(), studyId, postId);
+        model.addAttribute("postDetail", postDetail);
+        return "studypost/postdetail";
     }
 
 }

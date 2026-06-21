@@ -32,7 +32,7 @@
                         <tr>
                             <td>${post.postId}</td>
                             <td>
-                                <a href="<c:url value='/study/post/${post.postId}' />">${post.postTitle}</a>
+                                <a href="<c:url value='/study/${studyId}/post/${post.postId}' />">${post.postTitle}</a>
                             </td>
                             <td>${post.postWriter}</td>
                             <td>${post.postCreatedAt}</td>
