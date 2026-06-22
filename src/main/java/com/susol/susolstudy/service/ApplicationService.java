@@ -1,5 +1,7 @@
 package com.susol.susolstudy.service;
 
+import java.util.List;
+
 public class ApplicationService {
 
     public void createUserStudyApplication() {}
@@ -8,7 +10,7 @@ public class ApplicationService {
 
     public void deleteStudyApplication() {}
 
-    public void selectMemberApplication() {}
+    public List<Object> selectMemberApplication()  {return null;}
 
     public void approveStudyApplication() {}
 }
