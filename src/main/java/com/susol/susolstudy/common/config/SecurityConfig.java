@@ -27,6 +27,12 @@ public class SecurityConfig {
                 .passwordParameter("userPassword")
                 .loginProcessingUrl("/auth/login")
                 .defaultSuccessUrl("/main/home")
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/main/home")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
             );
 
         return http.build();
