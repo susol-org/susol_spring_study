@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .usernameParameter("username")
                 .passwordParameter("userPassword")
                 .loginProcessingUrl("/auth/login")
-                .defaultSuccessUrl("/main/home", true)
+                .defaultSuccessUrl("/main/home")
             );
 
         return http.build();

@@ -16,6 +16,18 @@
     <script id="contentData" type="application/json">${postDetail.postContent}</script>
     <div id="postContent"></div>
     <hr>
+    <c:if test="${not empty postDetail.postFiles}">
+        <h3>첨부파일</h3>
+        <ul>
+            <c:forEach items="${postDetail.postFiles}" var="file">
+                <li>
+                    <a href="#" onclick="downloadFile('${file.renamedFileName}', '${file.originalFileName}'); return false;">
+                        ${file.originalFileName}
+                    </a>
+                </li>
+            </c:forEach>
+        </ul>
+    </c:if>
     <c:if test="${not empty postDetail.postUpdatedAt}">
         <p>최종 수정일: ${postDetail.postUpdatedAt}</p>
     </c:if>
@@ -34,6 +46,21 @@
         document.getElementById('postContent').innerHTML = html.join('');
         hljs.highlightAll();
 
+
+        const downloadFile = async (renamedFileName, originalFileName) => {
+            const response = await fetch('/file/' + renamedFileName);
+            if (!response.ok) {
+                alert('파일을 다운로드할 수 없습니다.');
+                return;
+            }
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = originalFileName;
+            a.click();
+            URL.revokeObjectURL(url);
+        };
 
         const deletePost = (e) => {
             e.preventDefault();
