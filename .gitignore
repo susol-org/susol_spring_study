@@ -40,3 +40,4 @@ out/
 import.sql
 application.yaml
 .claude
+application.properties
