@@ -1,13 +1,9 @@
 package com.susol.susolstudy.controller;
 
-import com.susol.susolstudy.model.dto.MyStudyListResponseDTO;
-import com.susol.susolstudy.model.dto.PostDetailResponseDTO;
-import com.susol.susolstudy.model.dto.PostResponseDTO;
-import com.susol.susolstudy.model.dto.PostWriteRequestDTO;
-import com.susol.susolstudy.model.entity.Post;
+import com.susol.susolstudy.model.dto.*;
 import com.susol.susolstudy.service.PostService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -48,7 +44,11 @@ public class PostController {
                              @PathVariable int postId, @PathVariable int studyId,
                              Model model) {
         PostDetailResponseDTO postDetail = service.getPostByPostId(user.getUsername(), studyId, postId);
+        boolean updateAuth = service.checkMyPost(user.getUsername(), postId);
+
         model.addAttribute("postDetail", postDetail);
+        model.addAttribute("updateAuth", updateAuth);
+
         return "studypost/postdetail";
     }
 
@@ -65,7 +65,42 @@ public class PostController {
                             @AuthenticationPrincipal UserDetails user,
                             @ModelAttribute PostWriteRequestDTO postWriteDTO) {
         service.writePost(studyId, user.getUsername(), postWriteDTO);
-        return "studypost/studypostlist";
+        return "redirect:/study/" + studyId + "/post";
+    }
+
+    //post 수정페이지 이동
+    @GetMapping("/{studyId}/post/{postId}/update")
+    public String postUpdatePage(@PathVariable int studyId, @PathVariable int postId,
+                                 @AuthenticationPrincipal UserDetails user, Model model) {
+        PostUpdateResponseDTO updatingPost = service.getUpdatingPost(postId, user.getUsername());
+
+        model.addAttribute("updatingPost", updatingPost);
+        model.addAttribute("studyId", studyId);
+        model.addAttribute("postId", postId);
+
+        return "studypost/studypostupdate";
+    }
+
+    //post update처리
+    @PostMapping("/{studyId}/post/{postId}/update")
+    public String postUpdate(@PathVariable int studyId, @PathVariable int postId,
+                             @AuthenticationPrincipal UserDetails user,
+                             @ModelAttribute PostUpdateRequestDTO updateDTO, Model model) {
+        service.updatePost(postId, user.getUsername(), updateDTO);
+
+        model.addAttribute("studyId", studyId);
+        model.addAttribute("postId", postId);
+
+        return "redirect:/study/" + studyId + "/post/" + postId;
+    }
+
+    //postDelete처리
+    @DeleteMapping("/{studyId}/post/{postId}")
+    public ResponseEntity<String> deletePost(@PathVariable int studyId, @PathVariable int postId,
+                                             @AuthenticationPrincipal UserDetails user) {
+        service.deletePost(postId, user.getUsername());
+
+        return ResponseEntity.ok("삭제되었습니다.");
     }
 
 }

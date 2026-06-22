@@ -12,4 +12,10 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     // 자신이 소속된 study의 post인지 여부까지 한번에 처리
     Optional<Post> findByPostIdAndStudy_StudyId(int postId, int studyId);
+
+    //자신의 게시물인지 체크
+    boolean existsByPostIdAndUser_UserEmailId(int postId, String username);
+
+    //존재하는 게시물이고 자신의 게시물인지 (update)
+    Optional<Post> findByPostIdAndUser_UserEmailId(int postId, String username);
 }

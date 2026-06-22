@@ -3,10 +3,7 @@ package com.susol.susolstudy.service;
 import com.susol.susolstudy.dao.PostRepository;
 import com.susol.susolstudy.dao.StudyMemberRepository;
 import com.susol.susolstudy.dao.UserRepository;
-import com.susol.susolstudy.model.dto.MyStudyListResponseDTO;
-import com.susol.susolstudy.model.dto.PostDetailResponseDTO;
-import com.susol.susolstudy.model.dto.PostResponseDTO;
-import com.susol.susolstudy.model.dto.PostWriteRequestDTO;
+import com.susol.susolstudy.model.dto.*;
 import com.susol.susolstudy.model.entity.Post;
 import com.susol.susolstudy.model.entity.StudyMember;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,6 +12,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -59,6 +57,10 @@ public class PostService {
         return PostDetailResponseDTO.entityOf(post);
     }
 
+    public boolean checkMyPost(String username, int postId) {
+        return postRepository.existsByPostIdAndUser_UserEmailId(postId, username);
+    }
+
     @Transactional
     public void writePost(int studyId, String userEmailId, PostWriteRequestDTO postWriteDTO) {
         //해당 스터디게시판에 작성권한여부 체크
@@ -68,5 +70,30 @@ public class PostService {
 
         Post writePost = Post.create(searchStudyMember.getStudy(), searchStudyMember.getUser(), postWriteDTO);
         postRepository.save(writePost);
+    }
+
+    public PostUpdateResponseDTO getUpdatingPost(int postId, String userEmailId) {
+        Post post = postRepository.findByPostIdAndUser_UserEmailId(postId, userEmailId)
+                        .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게시물입니다."));
+
+        return PostUpdateResponseDTO.entityOf(post);
+    }
+
+    @Transactional
+    public void updatePost(int postId, String userEmailId, PostUpdateRequestDTO updatePost) {
+        Post post = postRepository.findByPostIdAndUser_UserEmailId(postId, userEmailId)
+                        .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게시물입니다."));
+
+        post.setPostType(updatePost.getPostType());
+        post.setPostTitle(updatePost.getPostTitle());
+        post.setPostContent(updatePost.getPostContent());
+        post.setPostUpdatedAt(LocalDateTime.now());
+    }
+
+    public void deletePost(int postId, String userEmailId) {
+        Post post = postRepository.findByPostIdAndUser_UserEmailId(postId, userEmailId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게시물입니다."));
+
+        postRepository.delete(post);
     }
 }

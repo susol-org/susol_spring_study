@@ -4,6 +4,8 @@
 <head>
     <title>게시물 상세</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <meta name="_csrf" content="${_csrf.token}">
+    <meta name="_csrf_header" content="${_csrf.headerName}">
 </head>
 <body>
     <h2>${postDetail.studyTitle}</h2>
@@ -18,6 +20,10 @@
         <p>최종 수정일: ${postDetail.postUpdatedAt}</p>
     </c:if>
     <a href="<c:url value='/study/${studyId}/post' />">목록으로</a>
+    <c:if test="${updateAuth eq true}">
+        <a href="<c:url value='/study/${studyId}/post/${postId}/update' />">수정하기</a>
+        <a href="#" onclick="deletePost(event)">삭제하기</a>
+    </c:if>
 
     <script src="https://cdn.jsdelivr.net/npm/editorjs-html@3.4.3/build/edjsHTML.browser.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -27,6 +33,38 @@
         const html = parser.parse(data);
         document.getElementById('postContent').innerHTML = html.join('');
         hljs.highlightAll();
+
+
+        const deletePost = (e) => {
+            e.preventDefault();
+
+            const isDelete = confirm("삭제하시겠습니까?");
+
+            if(isDelete === false) return;
+
+            const url = "<c:url value='/study/${studyId}/post/${postId}' />";
+            const header = document.querySelector("meta[name='_csrf_header']").getAttribute('content');
+            const token = document.querySelector("meta[name='_csrf']").getAttribute('content');
+            const redirectURL = "<c:url value='/study/${studyId}/post' />";
+
+            console.log("header : " + header + " token : " + token);
+
+            fetch(url, {
+                method : "DELETE",
+                headers : {
+                    [header] : token
+                }
+            })
+            .then(response => {
+                if(!response.ok) {
+                    alert("해당 게시물을 삭제할 수 없습니다.");
+                } else {
+                    location.assign(redirectURL);
+                }
+            })
+            .catch(error => console.log(error))
+
+        }
     </script>
 </body>
 </html>

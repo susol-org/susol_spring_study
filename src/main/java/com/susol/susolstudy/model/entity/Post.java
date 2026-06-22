@@ -47,6 +47,22 @@ public class Post {
 
     private LocalDateTime postUpdatedAt;
 
+    public void setPostType(PostType postType) {
+        this.postType = postType;
+    }
+
+    public void setPostTitle(String postTitle) {
+        this.postTitle = postTitle;
+    }
+
+    public void setPostContent(String postContent) {
+        this.postContent = postContent;
+    }
+
+    public void setPostUpdatedAt(LocalDateTime postUpdatedAt) {
+        this.postUpdatedAt = postUpdatedAt;
+    }
+
     public static Post create(Study study, User user, PostWriteRequestDTO postDTO) {
         Post post = new Post();
         post.study = study;
