@@ -100,7 +100,7 @@ public class PostController {
                                              @AuthenticationPrincipal UserDetails user) {
         service.deletePost(postId, user.getUsername());
 
-        return ResponseEntity.ok("삭제되었습니다.");
+        return ResponseEntity.ok("게시물이 삭제되었습니다.");
     }
 
 }

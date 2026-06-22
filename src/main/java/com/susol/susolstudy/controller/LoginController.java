@@ -12,4 +12,21 @@ public class LoginController {
     public String loginPage() {
         return "signin";
     }
+
+    @GetMapping("/signup")
+    public String signUpPage() {
+        return null;
+    }
+
+    @GetMapping("/findId")
+    public String findIdPage() {
+        return null;
+    }
+
+    @GetMapping("/findPassword")
+    public String findPasswordPage() {
+        return null;
+    }
+
+
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@ToString
 @Entity
 public class Post {
 
@@ -61,6 +63,10 @@ public class Post {
 
     public void setPostUpdatedAt(LocalDateTime postUpdatedAt) {
         this.postUpdatedAt = postUpdatedAt;
+    }
+
+    public void setPostViewCount(int postViewCount) {
+        this.postViewCount = postViewCount;
     }
 
     public static Post create(Study study, User user, PostWriteRequestDTO postDTO) {

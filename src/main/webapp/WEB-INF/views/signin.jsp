@@ -26,9 +26,9 @@
         </form>
     </div>
     <div>
-        <a href="<%= request.getContextPath() %>/signin">회원가입</a>
-        <a href="<%= request.getContextPath() %>/findId">아이디찾기</a>
-        <a href="<%= request.getContextPath() %>/findPassword">비밀번호찾기</a>
+        <a href="<%= request.getContextPath() %>/auth/signup">회원가입</a>
+        <a href="<%= request.getContextPath() %>/auth/findId">아이디찾기</a>
+        <a href="<%= request.getContextPath() %>/auth/findPassword">비밀번호찾기</a>
     </div>
 </body>
 </html>
