@@ -2,10 +2,7 @@ package com.susol.susolstudy.model.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -37,5 +34,8 @@ public class StudyApplication {
     private LocalDateTime createdAt;
     private LocalDateTime deletedAt;
 
+    public void updateStatus(ApplicationStatus applicationStatus){
+        this.status = applicationStatus;
 
+    }
 }
