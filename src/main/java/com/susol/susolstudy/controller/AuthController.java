@@ -85,7 +85,8 @@ public class AuthController {
     }
 
     @PatchMapping("/password/change")
-    public ResponseEntity<?> passwordChange(@RequestBody String password, HttpSession session) {
+    public ResponseEntity<?> passwordChange(@RequestBody Map<String, String> requestParam, HttpSession session) {
+        String password = requestParam.get("password");
         String userEmailId = (String) session.getAttribute("changePasswordEmailId");
         if(userEmailId == null) throw new AccessDeniedException("잘못된 접근입니다.");
 

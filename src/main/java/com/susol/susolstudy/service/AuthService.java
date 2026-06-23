@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -56,6 +57,7 @@ public class AuthService {
         return findUser.map(User::getUserEmailId).orElse(null);
     }
 
+    @Transactional
     public void updatePassword(String userEmailId, String password) {
         User user = userRepository.findByUserEmailId(userEmailId)
                             .orElseThrow(() -> new AccessDeniedException("잘못된 접근 방식입니다."));
