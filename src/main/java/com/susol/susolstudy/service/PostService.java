@@ -37,6 +37,7 @@ public class PostService {
                         .toList();
     }
 
+    @Transactional
     public List<PostResponseDTO> getPostList(int studyId, String userEmailId) {
         boolean validationResult = studyMemberRepository.existsByStudy_StudyIdAndUser_UserEmailId(studyId, userEmailId);
 

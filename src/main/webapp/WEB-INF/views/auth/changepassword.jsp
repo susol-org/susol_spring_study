@@ -58,10 +58,15 @@
             })
             .then(response => {
                 if(!response.ok) {
-                    alert("오류가 발생했습니다.")
+                    alert("오류가 발생했습니다.");
+                } else {
+                    return response.text();
                 }
-
-
+            })
+            .then(data => {
+                alert(data);
+                history.replaceState(null, "", "<c:url value='/auth/login'/>")
+                window.location.href = "<c:url value='/auth/login'/>"
             })
             .catch(error => console.log(error));
         }

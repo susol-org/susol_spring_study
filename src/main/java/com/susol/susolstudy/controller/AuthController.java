@@ -93,7 +93,7 @@ public class AuthController {
         service.updatePassword(userEmailId, password);
 
         session.removeAttribute("changePasswordEmailId");
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("비밀번호가 수정되었습니다.");
     }
 
 }
