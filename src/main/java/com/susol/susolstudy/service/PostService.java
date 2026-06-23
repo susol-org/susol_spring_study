@@ -72,7 +72,6 @@ public class PostService {
         boolean isMine = checkMyPost(userEmailId, postId);
 
         if(!isReadToday && !isMine) {
-            System.out.println("isReadToday : " + isReadToday + " isMine : " + isMine);
             PostReadLog postReadLog = PostReadLog.create(post, user);
             postReadLogRepository.save(postReadLog);
             post.setPostViewCount(post.getPostViewCount() + 1);
