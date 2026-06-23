@@ -1,0 +1,124 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.signup-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px 48px;
+    width: 460px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.signup-card h2 {
+    text-align: center;
+    margin-bottom: 28px;
+    font-size: 1.5rem;
+    color: #1a1a2e;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #5c6bc0;
+}
+
+.gender-group {
+    display: flex;
+    gap: 20px;
+}
+
+.gender-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: normal;
+    font-size: 0.95rem;
+    cursor: pointer;
+    color: #333;
+}
+
+.form-group textarea {
+    resize: none;
+    height: 80px;
+    font-family: inherit;
+}
+
+.optional {
+    color: #aaa;
+    font-weight: normal;
+}
+
+.error-msg {
+    font-size: 0.78rem;
+    color: #e53935;
+    display: none;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    background: #5c6bc0;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.submit-btn:hover {
+    background: #3f51b5;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.login-link a {
+    color: #5c6bc0;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
