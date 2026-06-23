@@ -12,14 +12,18 @@ section {
     height: 100%;
 }
 .header-right-container {
-    display: grid;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
 }
-.align-right{
-    text-align: right;
-}
-.mypage-a {
-    text-align: right;
+.header-btn {
     color: magenta;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    padding: 0;
 }
 .content-ul {
     display: flex;

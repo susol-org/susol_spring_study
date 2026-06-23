@@ -11,6 +11,7 @@
     <title>403</title>
 </head>
 <body>
+    <%@ include file="../common/header.jsp" %>
     <h1>뭘 잘못하셨는지 아시겠죠?</h1>
     <h2 style="color: red">${errMessage}</h2>
 </body>

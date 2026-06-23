@@ -14,6 +14,7 @@
     <meta name="_csrf_header" content="${_csrf.headerName}">
 </head>
 <body>
+    <%@ include file="../common/header.jsp" %>
     <h1>비밀번호 변경</h1>
     <hr>
     <h2>변경할 아이디 : ${userEmailId}</h2>

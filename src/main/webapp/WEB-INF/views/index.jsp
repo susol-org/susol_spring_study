@@ -19,9 +19,16 @@
             <h1>SUSOL STUDY</h1>
         </div>
         <div class="header-right-container">
-            <a href="/mypage" class="mypage-a">마이페이지~</a>
-<%--            <sec:authentication property="username" var=""/>--%>
-            <p class="align-right">사용자 : </p>
+            <sec:authorize access="isAuthenticated()">
+                <a href="/mypage" class="header-btn">마이페이지~</a>
+                <form action="<c:url value='/auth/logout' />" method="post">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                    <button type="submit" class="header-btn">로그아웃~</button>
+                </form>
+            </sec:authorize>
+            <sec:authorize access="isAnonymous()">
+                <a href="<c:url value='/auth/login'/>" class="header-btn">로그인하러 가기</a>
+            </sec:authorize>
         </div>
     </header>
     <section>

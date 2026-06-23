@@ -12,7 +12,7 @@
     <title>비밀번호 찾기</title>
 </head>
 <body>
-    <a href="/">홈으로 가기</a>
+    <%@ include file="../common/header.jsp" %>
     <h1>비밀번호 찾기</h1>
     <hr>
     <label for="userEmailId">아이디 입력</label>

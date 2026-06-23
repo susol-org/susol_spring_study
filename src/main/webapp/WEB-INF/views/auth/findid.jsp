@@ -12,6 +12,7 @@
     <title>아이디찾기</title>
 </head>
 <body>
+    <%@ include file="../common/header.jsp" %>
     <p>이름, 나이, 성별로 찾기</p>
     <label for="usernameInput">이름</label>
     <input type="text" name="userName" id="usernameInput" placeholder="이름"><br>

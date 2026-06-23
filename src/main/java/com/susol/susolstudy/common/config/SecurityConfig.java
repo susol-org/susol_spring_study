@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .rememberMeParameter("remember-me")
             )
             .logout(logout -> logout
-                .logoutUrl("/logout")
+                .logoutUrl("/auth/logout")
                 .logoutSuccessUrl("/main/home")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID", "remember-me")

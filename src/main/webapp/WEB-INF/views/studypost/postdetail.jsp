@@ -8,6 +8,7 @@
     <meta name="_csrf_header" content="${_csrf.headerName}">
 </head>
 <body>
+    <%@ include file="../common/header.jsp" %>
     <h2>${postDetail.studyTitle}</h2>
     <hr>
     <h1>[${postDetail.postType}] ${postDetail.postTitle}</h1>

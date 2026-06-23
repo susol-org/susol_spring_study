@@ -11,6 +11,7 @@
     <title>noPost</title>
 </head>
 <body>
+    <%@ include file="../common/header.jsp" %>
     <h1>${errMessage}</h1>
 </body>
 </html>

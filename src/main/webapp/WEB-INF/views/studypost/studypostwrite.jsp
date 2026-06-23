@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/studypost/studypostwrite.css">
 </head>
 <body>
+    <%@ include file="../common/header.jsp" %>
     <h1>게시물 작성</h1>
     <hr>
     <form id="postForm" action="<c:url value='/study/${studyId}/post' />" method="post" enctype="multipart/form-data">

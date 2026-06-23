@@ -12,6 +12,7 @@
     <title>스터디 게시판</title>
 </head>
 <body>
+    <%@ include file="../common/header.jsp" %>
     <h1>study post</h1>
     <hr>
     <c:choose>

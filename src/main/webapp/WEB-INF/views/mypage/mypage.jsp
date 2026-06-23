@@ -13,6 +13,7 @@
     <title>마이페이지</title>
 </head>
 <body>
+    <%@ include file="../common/header.jsp" %>
     <ul>
         <li></li>
     </ul>

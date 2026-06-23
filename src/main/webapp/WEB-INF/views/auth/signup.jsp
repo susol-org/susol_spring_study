@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/auth/signup.css">
 </head>
 <body>
+<%@ include file="../common/header.jsp" %>
 <div class="signup-card">
     <h2>회원가입</h2>
     <form id="signUpForm" action="<%= request.getContextPath() %>/auth/signup" method="post">

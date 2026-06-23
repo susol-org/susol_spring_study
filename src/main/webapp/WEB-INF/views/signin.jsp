@@ -12,6 +12,7 @@
     <title>로그인</title>
 </head>
 <body>
+    <%@ include file="common/header.jsp" %>
     <div>
         <form action="<%= request.getContextPath() %>/auth/login" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

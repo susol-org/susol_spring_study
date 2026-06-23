@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/studypost/studypostlist.css" />
 </head>
 <body>
+    <%@ include file="../common/header.jsp" %>
     <h1>스터디 게시물</h1>
     <hr>
     <c:choose>
