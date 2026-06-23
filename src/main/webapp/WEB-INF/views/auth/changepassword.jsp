@@ -26,8 +26,8 @@
     <button onclick="changePassword()">변경하기</button>
 
     <script>
-        const csrfHeader = document.querySelector("meta[name='_csrf_header']");
-        const csrfToken = document.querySelector("meta[name='_csrf_header']");
+        const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+        const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
 
         const changePassword = () => {
             const changePassword = document.getElementById("userPassword");
@@ -43,17 +43,19 @@
                 return;
             }
 
-
+            console.log(csrfHeader + " " + csrfToken);
+            console.log(changePassword.value);
 
             fetch("<c:url value='/auth/password/change' />", {
                 method : "PATCH",
                 headers : {
-                    "Content-Type" : "application/json"
+                    "Content-Type" : "application/json",
+                    [csrfHeader] : csrfToken
                 },
                 body : JSON.stringify({
                     password : changePassword.value
                 })
-            })
+            });
         }
 
         document.getElementById("showPassword").addEventListener("click", e => {

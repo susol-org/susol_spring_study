@@ -84,4 +84,13 @@ public class AuthController {
         return "auth/changepassword";
     }
 
+    @PatchMapping("/password/change")
+    public ResponseEntity<?> passwordChange(@RequestBody String password, HttpSession session) {
+        String userEmailId = (String) session.getAttribute("changePasswordEmailId");
+        if(userEmailId == null) throw new AccessDeniedException("잘못된 접근입니다.");
+
+        service.updatePassword(userEmailId, password);
+        return null;
+    }
+
 }

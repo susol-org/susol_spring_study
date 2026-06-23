@@ -35,4 +35,8 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Permission userPermission;
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
 }

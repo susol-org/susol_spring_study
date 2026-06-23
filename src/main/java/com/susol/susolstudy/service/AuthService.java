@@ -6,6 +6,7 @@ import com.susol.susolstudy.model.dto.SignUpRequestDTO;
 import com.susol.susolstudy.model.entity.Permission;
 import com.susol.susolstudy.model.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,5 +54,13 @@ public class AuthService {
     public String checkValidateEmailId(String userEmailId) {
         Optional<User> findUser = userRepository.findByUserEmailId(userEmailId);
         return findUser.map(User::getUserEmailId).orElse(null);
+    }
+
+    public void updatePassword(String userEmailId, String password) {
+        User user = userRepository.findByUserEmailId(userEmailId)
+                            .orElseThrow(() -> new AccessDeniedException("잘못된 접근 방식입니다."));
+
+        String encPassword = passwordEncoder.encode(password);
+        user.setUserPassword(encPassword);
     }
 }
