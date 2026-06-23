@@ -32,6 +32,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // jsp용 security 태그
     implementation 'org.springframework.security:spring-security-taglibs'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
     testImplementation 'org.springframework.security:spring-security-test'
     runtimeOnly 'org.glassfish.web:jakarta.servlet.jsp.jstl'
     compileOnly 'org.projectlombok:lombok'

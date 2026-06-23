@@ -1,5 +1,6 @@
 package com.susol.susolstudy.service;
 
+import com.susol.susolstudy.common.aop.RequiredStudyMember;
 import com.susol.susolstudy.dao.*;
 import com.susol.susolstudy.model.dto.*;
 import com.susol.susolstudy.model.entity.*;
@@ -37,13 +38,14 @@ public class PostService {
                         .toList();
     }
 
+    @RequiredStudyMember
     @Transactional
     public List<PostResponseDTO> getPostList(int studyId, String userEmailId) {
-        boolean validationResult = studyMemberRepository.existsByStudy_StudyIdAndUser_UserEmailId(studyId, userEmailId);
-
-        if(!validationResult) {
-            throw new AccessDeniedException("접근 권한이 없습니다.");
-        }
+//        boolean validationResult = studyMemberRepository.existsByStudy_StudyIdAndUser_UserEmailId(studyId, userEmailId);
+//
+//        if(!validationResult) {
+//            throw new AccessDeniedException("접근 권한이 없습니다.");
+//        }
 
         List<Post> postList = postRepository.findAllByStudy_StudyId(studyId);
 
