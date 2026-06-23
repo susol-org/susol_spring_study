@@ -90,7 +90,9 @@ public class AuthController {
         if(userEmailId == null) throw new AccessDeniedException("잘못된 접근입니다.");
 
         service.updatePassword(userEmailId, password);
-        return null;
+
+        session.removeAttribute("changePasswordEmailId");
+        return ResponseEntity.ok().build();
     }
 
 }

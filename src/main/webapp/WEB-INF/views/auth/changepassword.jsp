@@ -55,7 +55,13 @@
                 body : JSON.stringify({
                     password : changePassword.value
                 })
-            });
+            })
+            .then(response => {
+                if(!response.ok) {
+                    alert("오류가 발생했습니다.")
+                }
+            })
+            .catch(error => console.log(error));
         }
 
         document.getElementById("showPassword").addEventListener("click", e => {
