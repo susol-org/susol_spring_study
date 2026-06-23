@@ -27,4 +27,9 @@ public class StudyMember {
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
+
+    public void updateRole(Role role){
+        this.role = role;
+
+    }
 }
