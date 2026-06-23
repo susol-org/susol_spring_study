@@ -31,7 +31,7 @@
     <div>
         <a href="<%= request.getContextPath() %>/auth/signup">회원가입</a>
         <a href="<%= request.getContextPath() %>/auth/findId">아이디찾기</a>
-        <a href="<%= request.getContextPath() %>/auth/findPassword">비밀번호찾기</a>
+        <a href="<%= request.getContextPath() %>/auth/find/password">비밀번호찾기</a>
     </div>
 <c:if test="${not empty successMessage}">
     <script>alert('${successMessage}');</script>

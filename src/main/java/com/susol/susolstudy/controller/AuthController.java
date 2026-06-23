@@ -2,11 +2,13 @@ package com.susol.susolstudy.controller;
 
 import com.susol.susolstudy.model.dto.FindIdRequestDTO;
 import com.susol.susolstudy.model.dto.SignUpRequestDTO;
-import com.susol.susolstudy.model.dto.UserResponseDTO;
 import com.susol.susolstudy.service.AuthService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -55,10 +57,31 @@ public class AuthController {
         return emailId == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(emailId);
     }
 
-    @GetMapping("/findPassword")
+    @GetMapping("/find/password")
     public String findPasswordPage() {
-        return null;
+        return "auth/findpassword";
     }
 
+    // 존재하는 아이디인지확인
+    @GetMapping("/password/exist")
+    public ResponseEntity<?> checkValidateEmailId(@RequestParam String emailId, HttpSession session) {
+        String findEmailId = service.checkValidateEmailId(emailId);
+
+        if(findEmailId == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        session.setAttribute("changePasswordEmailId", findEmailId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/password/change")
+    public String passwordChangePage(HttpSession session, Model model) {
+        String userEmailId = (String) session.getAttribute("changePasswordEmailId");
+        if(userEmailId == null) throw new AccessDeniedException("잘못된 접근입니다.");
+
+        model.addAttribute("userEmailId", userEmailId);
+        return "auth/changepassword";
+    }
 
 }
