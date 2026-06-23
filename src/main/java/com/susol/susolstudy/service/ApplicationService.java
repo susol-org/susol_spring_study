@@ -55,13 +55,18 @@ public class ApplicationService {
         studyApplicatiobRepoitory.delete(application);
     }
 
-    public void deleteStudyApplication(String userEmailId, int studyId) {
-        StudyApplication application = studyApplicatiobRepoitory.findByStudy_StudyIdAndUser_userEmailId(studyId, userEmailId)
+    @Transactional
+    public void deleteStudyApplication(String userEmailId, int studyId, int applicationId) {
+        StudyMember member = studyMemberRepository.findByStudy_StudyIdAndUser_UserEmailId(studyId, userEmailId)
+                .orElseThrow(() -> new AccessDeniedException("접근 권한이 없습니다."));
+        if(member.getRole() != Role.LEADER) {
+            throw new AccessDeniedException("리더만 가능합니다.");
+        }
+
+        StudyApplication application = studyApplicatiobRepoitory.findById(applicationId)
                 .orElseThrow(() -> new RuntimeException("지원 내역이 없습니다."));
 
         application.updateStatus(ApplicationStatus.REJECTED);
-        studyApplicatiobRepoitory.save(application);
-
     }
 
     public List<ApplicationResponseDTO> selectMemberApplication(String userEmailId, int studyId) {

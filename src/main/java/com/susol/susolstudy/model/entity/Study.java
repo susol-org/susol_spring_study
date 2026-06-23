@@ -38,4 +38,7 @@ public class Study {
         this.currentMemberCount++;
     }
 
+    public void decreaseMemberCount() {
+        this.currentMemberCount--;
+    }
 }
