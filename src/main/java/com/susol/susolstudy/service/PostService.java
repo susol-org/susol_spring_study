@@ -1,20 +1,23 @@
 package com.susol.susolstudy.service;
 
-import com.susol.susolstudy.dao.PostReadLogRepository;
-import com.susol.susolstudy.dao.PostRepository;
-import com.susol.susolstudy.dao.StudyMemberRepository;
-import com.susol.susolstudy.dao.UserRepository;
+import com.susol.susolstudy.dao.*;
 import com.susol.susolstudy.model.dto.*;
 import com.susol.susolstudy.model.entity.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Internal;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -24,6 +27,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final PostReadLogRepository postReadLogRepository;
+    private final PostFileRepository postFileRepository;
 
     public List<MyStudyListResponseDTO> getMyStudyList(String userEmailId) {
         List<StudyMember> studyList = studyMemberRepository.findAllByUser_UserEmailId(userEmailId);
@@ -64,8 +68,6 @@ public class PostService {
         boolean isReadToday = postReadLogRepository.existsReadLog(user, post, LocalDate.now());
         boolean isMine = checkMyPost(userEmailId, postId);
 
-        System.out.println(post);
-        System.out.println(user);
         if(!isReadToday && !isMine) {
             System.out.println("isReadToday : " + isReadToday + " isMine : " + isMine);
             PostReadLog postReadLog = PostReadLog.create(post, user);
@@ -81,14 +83,52 @@ public class PostService {
     }
 
     @Transactional
-    public void writePost(int studyId, String userEmailId, PostWriteRequestDTO postWriteDTO) {
+    public void writePost(int studyId, String userEmailId, PostWriteRequestDTO postWriteDTO,
+                            MultipartFile[] uploadFiles) {
         //해당 스터디게시판에 작성권한여부 체크
         StudyMember searchStudyMember = studyMemberRepository
                                             .findByStudy_StudyIdAndUser_UserEmailId(studyId, userEmailId)
                                             .orElseThrow(() -> new AccessDeniedException("접근 권한이 없습니다."));
 
         Post writePost = Post.create(searchStudyMember.getStudy(), searchStudyMember.getUser(), postWriteDTO);
-        postRepository.save(writePost);
+        writePost = postRepository.save(writePost);
+
+        if(uploadFiles != null) {
+            try {
+                writePostUploadFile(uploadFiles, writePost);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    //게시물 작성시 파일 업로드
+    public void writePostUploadFile(MultipartFile[] uploadFiles, Post post) throws IOException {
+        String path = "C:/project-workspace/Spring_Project/backend/upload";
+        List<File> savedFiles = new ArrayList<>();
+
+        try {
+            for (MultipartFile file : uploadFiles) {
+                if (file != null && !file.isEmpty()) {
+                    String originalFileName = file.getOriginalFilename();
+                    String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+                    String renamedFileName = UUID.randomUUID() + ext;
+
+                    File dir = new File(path);
+                    if (!dir.exists()) dir.mkdirs();
+
+                    File dest = new File(path + "/" + renamedFileName);
+
+                    file.transferTo(dest);
+                    savedFiles.add(dest);
+
+                    postFileRepository.save(PostFile.create(post, originalFileName, renamedFileName));
+                }
+            }
+        } catch(Exception e) {
+            savedFiles.forEach(File::delete);
+            throw e;
+        }
     }
 
     public PostUpdateResponseDTO getUpdatingPost(int postId, String userEmailId) {
@@ -115,4 +155,5 @@ public class PostService {
 
         postRepository.delete(post);
     }
+
 }

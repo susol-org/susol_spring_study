@@ -41,3 +41,4 @@ import.sql
 application.yaml
 .claude
 application.properties
+data.sql

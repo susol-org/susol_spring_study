@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +22,7 @@ public class PostDetailResponseDTO {
     private int postViewCount;
     private String postCreatedAt;
     private String postUpdatedAt;
+    private List<PostFileDTO> postFiles = new ArrayList<>();
 
     public static PostDetailResponseDTO entityOf(Post post) {
         return new PostDetailResponseDTO(
@@ -31,7 +34,11 @@ public class PostDetailResponseDTO {
                 post.getPostViewCount(),
                 post.getPostCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
                 post.getPostUpdatedAt() != null ?
-                        post.getPostUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) : null
+                        post.getPostUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) : null,
+                post.getPostFiles()
+                        .stream()
+                        .map(f -> new PostFileDTO(f.getPostOriginalFileName(), f.getPostRenamedFileName()))
+                        .toList()
         );
     }
 }

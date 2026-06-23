@@ -9,9 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+//파일 가져오기 처리
+//
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/study")
@@ -61,12 +64,16 @@ public class PostController {
 
     //post작성
     @PostMapping("/{studyId}/post")
-    public String writePost(@PathVariable int studyId,
+    public ResponseEntity<Void> writePost(@PathVariable int studyId,
                             @AuthenticationPrincipal UserDetails user,
-                            @ModelAttribute PostWriteRequestDTO postWriteDTO) {
-        service.writePost(studyId, user.getUsername(), postWriteDTO);
-        return "redirect:/study/" + studyId + "/post";
+                            @ModelAttribute PostWriteRequestDTO postWriteDTO, MultipartFile[] uploadFiles) {
+
+        service.writePost(studyId, user.getUsername(), postWriteDTO, uploadFiles);
+
+//        return "redirect:/study/" + studyId + "/post";
+        return ResponseEntity.ok().build();
     }
+
 
     //post 수정페이지 이동
     @GetMapping("/{studyId}/post/{postId}/update")

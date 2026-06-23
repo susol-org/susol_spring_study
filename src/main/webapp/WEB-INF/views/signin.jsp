@@ -22,6 +22,8 @@
                 <label for="userPasswordInput">비밀번호</label>
                 <input type="password" name="userPassword" id="userPasswordInput" placeholder="비밀번호"><br>
             </div>
+            <label for="remember-me">로그인 유지</label>
+            <input type="checkbox" name="remember-me" id="remember-me">
             <button type="submit">로그인</button>
         </form>
     </div>
