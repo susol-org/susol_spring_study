@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>내 스터디노트~</title>
+    <link rel="stylesheet" href="/css/studynote/studynote.css" />
 </head>
 <body>
     <%@ include file="../common/header.jsp" %>
@@ -41,8 +42,31 @@
             </table>
         </c:when>
         <c:otherwise>
-            <h1>스터디 노트가 없어요.</h1>
+            <p class="empty">스터디 노트가 없어요.</p>
         </c:otherwise>
     </c:choose>
+
+    <c:if test="${totalPages > 1}">
+        <div class="pagination">
+            <c:if test="${currentPage > 0}">
+                <a href="/note?page=${currentPage - 1}">이전</a>
+            </c:if>
+
+            <c:forEach begin="0" end="${totalPages - 1}" var="i">
+                <c:choose>
+                    <c:when test="${i == currentPage}">
+                        <strong>${i + 1}</strong>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="/note?page=${i}">${i + 1}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <c:if test="${currentPage < totalPages - 1}">
+                <a href="/note?page=${currentPage + 1}">다음</a>
+            </c:if>
+        </div>
+    </c:if>
 </body>
 </html>

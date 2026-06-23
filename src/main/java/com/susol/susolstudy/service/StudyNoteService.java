@@ -6,6 +6,8 @@ import com.susol.susolstudy.dao.UserRepository;
 import com.susol.susolstudy.model.dto.StudyNoteResponseDTO;
 import com.susol.susolstudy.model.entity.StudyNote;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +22,12 @@ public class StudyNoteService {
     private final StudyMemberRepository studyMemberRepository;
 
     @Transactional
-    public List<StudyNoteResponseDTO> getAllStudyNote(String userEmailId) {
-        List<StudyNote> studyNoteList = studyNoteRepository.findAllByUser_UserEmailId(userEmailId);
+    public Page<StudyNoteResponseDTO> getAllStudyNote(String userEmailId, Pageable pageable) {
+        return studyNoteRepository.findAllByUser_UserEmailId(userEmailId, pageable)
+                                                    .map(StudyNoteResponseDTO::entityOf);
 
-        return studyNoteList.stream()
-                            .map(StudyNoteResponseDTO::entityOf)
-                            .toList();
+//        return studyNoteList.stream()
+//                            .map(StudyNoteResponseDTO::entityOf)
+//                            .toList();
     }
 }
