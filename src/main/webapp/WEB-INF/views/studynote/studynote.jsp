@@ -47,12 +47,15 @@
     </c:choose>
 
     <c:if test="${totalPages > 1}">
+        <c:set var="groupStart" value="${currentPage - (currentPage % 5)}" />
+        <c:set var="groupEnd" value="${groupStart + 4 < totalPages - 1 ? groupStart + 4 : totalPages - 1}" />
+
         <div class="pagination">
-            <c:if test="${currentPage > 0}">
-                <a href="/note?page=${currentPage - 1}">이전</a>
+            <c:if test="${groupStart > 0}">
+                <a href="/note?page=${groupStart - 1}">이전</a>
             </c:if>
 
-            <c:forEach begin="0" end="${totalPages - 1}" var="i">
+            <c:forEach begin="${groupStart}" end="${groupEnd}" var="i">
                 <c:choose>
                     <c:when test="${i == currentPage}">
                         <strong>${i + 1}</strong>
@@ -63,8 +66,8 @@
                 </c:choose>
             </c:forEach>
 
-            <c:if test="${currentPage < totalPages - 1}">
-                <a href="/note?page=${currentPage + 1}">다음</a>
+            <c:if test="${groupEnd < totalPages - 1}">
+                <a href="/note?page=${groupEnd + 1}">다음</a>
             </c:if>
         </div>
     </c:if>

@@ -29,7 +29,7 @@ public class StudyNoteController {
                                 @RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "5") int size,
                                                                     Model model) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("studyNoteCreatedAt").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("studyNoteId").descending());
         Page<StudyNoteResponseDTO> studyNotes = service.getAllStudyNote(user.getUsername(), pageable);
 
         model.addAttribute("studyNotes", studyNotes.getContent());
