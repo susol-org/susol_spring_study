@@ -1,6 +1,8 @@
 package com.susol.susolstudy.controller;
 
+import com.susol.susolstudy.model.dto.FindIdRequestDTO;
 import com.susol.susolstudy.model.dto.SignUpRequestDTO;
+import com.susol.susolstudy.model.dto.UserResponseDTO;
 import com.susol.susolstudy.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +45,14 @@ public class AuthController {
 
     @GetMapping("/findId")
     public String findIdPage() {
-        return null;
+        return "auth/findid";
+    }
+
+    @GetMapping("/user/findid")
+    public ResponseEntity<?> findId(@ModelAttribute FindIdRequestDTO findIdRequestDTO) {
+        String emailId = service.findId(findIdRequestDTO);
+
+        return emailId == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(emailId);
     }
 
     @GetMapping("/findPassword")

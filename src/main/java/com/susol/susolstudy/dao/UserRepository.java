@@ -1,5 +1,6 @@
 package com.susol.susolstudy.dao;
 
+import com.susol.susolstudy.model.entity.Gender;
 import com.susol.susolstudy.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -9,4 +10,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByUserEmailId(String userEmailId);
 
     boolean existsByUserEmailId(String userEmailId);
+
+    Optional<User> findByUserNameAndUserAgeAndUserGender(String userName, int userAge, Gender userGender);
 }
