@@ -36,6 +36,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(request -> request
                 .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                 .requestMatchers("/login", "/error", "/", "logout",
+                        "/auth/**",
                         "/main/home","/css/**", "/js/**").permitAll()
                 .anyRequest().authenticated()
             )
@@ -44,7 +45,7 @@ public class SecurityConfig {
                 .usernameParameter("username")
                 .passwordParameter("userPassword")
                 .loginProcessingUrl("/auth/login")
-                .defaultSuccessUrl("/main/home")
+                .defaultSuccessUrl("/main/home", true)
             )
             .rememberMe(remember -> remember
                 .userDetailsService(userDetailService)
