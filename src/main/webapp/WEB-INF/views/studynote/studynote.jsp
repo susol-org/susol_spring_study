@@ -33,7 +33,7 @@
                         <tr>
                             <td>${note.studyNoteId}</td>
                             <td>${note.writerEmailId}</td>
-                            <td>${note.studyNoteTitle}</td>
+                            <td><a href="/note/${note.studyNoteId}">${note.studyNoteTitle}</a></td>
                             <td>${note.studyNoteCreatedAt}</td>
                             <td>${note.studyTitle}</td>
                         </tr>

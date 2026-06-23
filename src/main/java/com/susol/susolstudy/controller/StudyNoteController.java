@@ -1,5 +1,6 @@
 package com.susol.susolstudy.controller;
 
+import com.susol.susolstudy.model.dto.StudyNoteDetailResponseDTO;
 import com.susol.susolstudy.model.dto.StudyNoteResponseDTO;
 import com.susol.susolstudy.service.StudyNoteService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -37,5 +39,13 @@ public class StudyNoteController {
         return "studynote/studynote";
 //        List<StudyNoteResponseDTO> allStudyNote = service.getAllStudyNote(user.getUsername());
 //        model.addAttribute("studyNotes", allStudyNote);
+    }
+
+    @GetMapping("/{studyNoteId}")
+    public String studyNoteDetail(@AuthenticationPrincipal UserDetails user,
+                                                    @PathVariable int studyNoteId, Model model) {
+        StudyNoteDetailResponseDTO studyNote = service.studyNoteDetail(user.getUsername(), studyNoteId);
+        model.addAttribute("studyNote", studyNote);
+        return "studynote/studynotedetail";
     }
 }
