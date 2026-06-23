@@ -34,4 +34,8 @@ public class Study {
     private LocalDateTime studyCreatedAt;
     private LocalDateTime studyUpdatedAt;
 
+    public void increaseMemberCount() {
+        this.currentMemberCount++;
+    }
+
 }
