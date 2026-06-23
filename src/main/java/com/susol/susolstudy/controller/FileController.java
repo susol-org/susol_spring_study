@@ -30,7 +30,7 @@ public class FileController {
     private final PostFileService service;
 
     @GetMapping("/{renamedFileName}")
-    public ResponseEntity<Resource> fildDownload(@PathVariable String renamedFileName,
+    public ResponseEntity<Resource> filedDownload(@PathVariable String renamedFileName,
                                                  @AuthenticationPrincipal UserDetails user) {
         PostFile postFile = service.fileDownload(user.getUsername(), renamedFileName);
 

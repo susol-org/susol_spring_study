@@ -3,6 +3,7 @@ package com.susol.susolstudy.common.config;
 import com.susol.susolstudy.common.security.UserDetailService;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,7 +38,8 @@ public class SecurityConfig {
                 .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                 .requestMatchers("/login", "/error", "/", "/logout",
                         "/auth/**",
-                        "/main/home","/css/**", "/js/**").permitAll()
+                        "/main/home","/css/**", "/js/**",
+                        "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -58,6 +60,17 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/main/home")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID", "remember-me")
+            )
+            // 이건뭔지모름.. swagger문제로 추가한거에요..
+            .exceptionHandling(ex -> ex
+                .authenticationEntryPoint((request, response, authException) -> {
+                    String accept = request.getHeader("Accept");
+                    if (accept != null && accept.contains("text/html")) {
+                        response.sendRedirect("/auth/login");
+                    } else {
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                    }
+                })
             );
 
         return http.build();
