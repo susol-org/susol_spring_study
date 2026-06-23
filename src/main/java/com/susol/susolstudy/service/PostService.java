@@ -7,6 +7,7 @@ import com.susol.susolstudy.model.entity.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Internal;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Service
 public class PostService {
+
+    @Value("${file.upload-path}")
+    private String uploadPath;
 
     private final StudyMemberRepository studyMemberRepository;
     private final PostRepository postRepository;
@@ -106,7 +110,7 @@ public class PostService {
 
     //게시물 작성시 파일 업로드
     public void writePostUploadFile(MultipartFile[] uploadFiles, Post post) throws IOException {
-        String path = "C:/project-workspace/Spring_Project/backend/upload";
+        String path = uploadPath;
         List<File> savedFiles = new ArrayList<>();
 
         try {

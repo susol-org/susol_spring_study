@@ -5,6 +5,7 @@ import com.susol.susolstudy.service.PostFileService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.action.internal.EntityActionVetoException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -29,12 +30,15 @@ public class FileController {
 
     private final PostFileService service;
 
+    @Value("${file.upload-path}")
+    private String uploadPath;
+
     @GetMapping("/{renamedFileName}")
     public ResponseEntity<Resource> filedDownload(@PathVariable String renamedFileName,
                                                  @AuthenticationPrincipal UserDetails user) {
         PostFile postFile = service.fileDownload(user.getUsername(), renamedFileName);
 
-        Path filePath = Paths.get("C:/project-workspace/Spring_Project/backend/upload/", renamedFileName);
+        Path filePath = Paths.get(uploadPath, renamedFileName);
         Resource resource = new FileSystemResource(filePath);
 
         if(!resource.exists()) throw new EntityNotFoundException("파일이 존재하지 않습니다.");
