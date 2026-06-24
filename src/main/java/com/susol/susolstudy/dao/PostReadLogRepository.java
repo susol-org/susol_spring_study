@@ -4,6 +4,7 @@ import com.susol.susolstudy.model.entity.Post;
 import com.susol.susolstudy.model.entity.PostReadLog;
 import com.susol.susolstudy.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -18,4 +19,8 @@ public interface PostReadLogRepository extends JpaRepository<PostReadLog, Intege
     boolean existsReadLog(@Param("user") User user,
                           @Param("post") Post post,
                           @Param("date") LocalDate now);
+
+    @Modifying
+    @Query("DELETE FROM PostReadLog p WHERE CAST(p.postReadLogDate as DATE) < :today")
+    void deleteBeforeDate(@Param("today") LocalDate today);
 }
