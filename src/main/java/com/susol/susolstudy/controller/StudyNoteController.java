@@ -1,0 +1,99 @@
+package com.susol.susolstudy.controller;
+
+import com.susol.susolstudy.model.dto.*;
+import com.susol.susolstudy.service.StudyNoteService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
+
+@RequiredArgsConstructor
+@Controller
+@RequestMapping("/note")
+public class StudyNoteController {
+
+    private final StudyNoteService service;
+
+    @GetMapping
+    public String studyNotePage(@AuthenticationPrincipal UserDetails user,
+                                @RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "5") int size,
+                                @RequestParam(required = false) String keyword,
+                                @RequestParam(required = false) Integer studyId,
+                                Model model) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("studyNoteId").descending());
+        Page<StudyNoteResponseDTO> studyNotes = service.getAllStudyNote(user.getUsername(), keyword, studyId, pageable);
+        List<JoinStudyResponseDTO> joinStudies = service.getJoinStudyOrEmpty(user.getUsername());
+
+        model.addAttribute("studyNotes", studyNotes.getContent());
+        model.addAttribute("totalPages", studyNotes.getTotalPages());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("joinStudy", joinStudies);
+        model.addAttribute("keyword", keyword != null ? keyword : "");
+        model.addAttribute("selectedStudyId", studyId != null ? studyId : 0);
+
+        return "studynote/studynote";
+    }
+
+    @GetMapping("/{studyNoteId}")
+    public String studyNoteDetail(@AuthenticationPrincipal UserDetails user,
+                                                    @PathVariable int studyNoteId, Model model) {
+        StudyNoteDetailResponseDTO studyNote = service.studyNoteDetail(user.getUsername(), studyNoteId);
+        boolean updateAuth = service.checkMyStudyNote(user.getUsername(), studyNoteId);
+
+        model.addAttribute("studyNote", studyNote);
+        model.addAttribute("updateAuth", updateAuth);
+
+        return "studynote/studynotedetail";
+    }
+
+    @GetMapping("/write")
+    public String studyNoteWritePage(@AuthenticationPrincipal UserDetails user, Model model) {
+        List<JoinStudyResponseDTO> joinStudies = service.getJoinStudy(user.getUsername());
+        model.addAttribute("joinStudy", joinStudies);
+        return "studynote/studynotewrite";
+    }
+
+    @PostMapping("/write")
+    public String studyNoteWrite(@AuthenticationPrincipal UserDetails user,
+                                 @ModelAttribute StudyNoteWriteRequestDTO studyNoteWriteDTO) {
+        service.studyNoteWrite(user.getUsername(), studyNoteWriteDTO);
+        return "redirect:/note";
+    }
+
+    // 다른사람 스터디 노트 조회
+    @GetMapping("/member")
+    public String memberStudyNotePage(@AuthenticationPrincipal UserDetails user,
+                                     @RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "5") int size, Model model) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("studyNoteId").descending());
+        Page<StudyNoteResponseDTO> memberStudyNotes =
+                            service.getAllMemberStudyNote(user.getUsername(), pageable);
+
+
+        model.addAttribute("studyNotes", memberStudyNotes.getContent());
+        model.addAttribute("totalPages", memberStudyNotes.getTotalPages());
+        model.addAttribute("currentPage", page);
+
+        return "studynote/memberstudynote";
+    }
+
+    @PostMapping("/{studyNoteId}/delete")
+    public String deleteStudyNote(@AuthenticationPrincipal UserDetails user,
+                                  @PathVariable int studyNoteId,
+                                  RedirectAttributes redirectAttributes) {
+        service.deleteStudyNote(user.getUsername(), studyNoteId);
+        redirectAttributes.addFlashAttribute("msg", "삭제되었습니다.");
+        return "redirect:/note";
+    }
+}

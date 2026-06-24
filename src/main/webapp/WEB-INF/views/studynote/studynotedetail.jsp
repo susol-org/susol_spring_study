@@ -1,0 +1,63 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<html>
+<head>
+    <title>${studyNote.studyNoteTitle}</title>
+    <link rel="stylesheet" href="/css/studynote/studynotedetail.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+    <%@ include file="../common/header.jsp" %>
+
+    <div class="note-wrapper">
+        <div class="note-meta">
+            <span class="study-name">${studyNote.studyName}</span>
+            <span class="visibility">${studyNote.studyNoteVisibility}</span>
+        </div>
+
+        <h1 class="note-title">${studyNote.studyNoteTitle}</h1>
+
+        <div class="note-info">
+            <span>작성자: ${studyNote.studyNoteWriter}</span>
+            <span>작성일: ${studyNote.studyNoteCreatedAt}</span>
+            <c:if test="${not empty studyNote.studyNoteUpdatedAt}">
+                <span>수정일: ${studyNote.studyNoteUpdatedAt}</span>
+            </c:if>
+        </div>
+
+        <hr>
+
+        <script id="contentData" type="application/json">${studyNote.studyNoteContent}</script>
+        <div id="noteContent" class="note-content"></div>
+
+        <hr>
+
+        <div class="note-actions">
+            <a href="/note">목록으로</a>
+            <c:if test="${updateAuth}">
+                <a href="/note/${studyNote.studyNoteId}/edit">수정</a>
+                <form action="/note/${studyNote.studyNoteId}/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                    <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+                </form>
+            </c:if>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/editorjs-html@3.4.3/build/edjsHTML.browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        const raw = document.getElementById('contentData').textContent.trim();
+        const container = document.getElementById('noteContent');
+
+        try {
+            const data = JSON.parse(raw);
+            const parser = edjsHTML();
+            container.innerHTML = parser.parse(data).join('');
+        } catch (e) {
+            container.innerText = raw;
+        }
+        hljs.highlightAll();
+    </script>
+</body>
+</html>
