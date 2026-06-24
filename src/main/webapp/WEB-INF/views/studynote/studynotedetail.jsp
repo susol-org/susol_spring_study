@@ -4,6 +4,7 @@
 <head>
     <title>${studyNote.studyNoteTitle}</title>
     <link rel="stylesheet" href="/css/studynote/studynotedetail.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 </head>
 <body>
     <%@ include file="../common/header.jsp" %>
@@ -37,6 +38,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/editorjs-html@3.4.3/build/edjsHTML.browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>
         const raw = document.getElementById('contentData').textContent.trim();
         const container = document.getElementById('noteContent');
@@ -48,6 +50,7 @@
         } catch (e) {
             container.innerText = raw;
         }
+        hljs.highlightAll();
     </script>
 </body>
 </html>

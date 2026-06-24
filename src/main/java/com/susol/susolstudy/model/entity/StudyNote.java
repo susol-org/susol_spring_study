@@ -1,5 +1,6 @@
 package com.susol.susolstudy.model.entity;
 
+import com.susol.susolstudy.model.dto.StudyNoteWriteRequestDTO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -38,8 +39,19 @@ public class StudyNote {
     private boolean studyNoteIsDelete;
 
     @CreationTimestamp
+    @Column(nullable = false)
     private LocalDateTime studyNoteCreatedAt;
 
-    @CreationTimestamp
     private LocalDateTime studyNoteUpdatedAt;
+
+    public static StudyNote create(User user, Study study, StudyNoteWriteRequestDTO studyNoteWriteDTO) {
+        StudyNote studyNote = new StudyNote();
+        studyNote.user = user;
+        studyNote.study = study;
+        studyNote.studyNoteTitle = studyNoteWriteDTO.getStudyNoteTitle();
+        studyNote.studyNoteContent = studyNoteWriteDTO.getStudyNoteContent();
+        studyNote.studyNoteVisibility = studyNoteWriteDTO.getStudyNoteVisibility();
+
+        return studyNote;
+    }
 }

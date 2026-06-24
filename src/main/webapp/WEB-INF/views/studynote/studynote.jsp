@@ -15,6 +15,7 @@
 <body>
     <%@ include file="../common/header.jsp" %>
     <h2>study note!</h2>
+    <a href="/note/write"><button>작성하기</button></a>
     <hr>
     <c:choose>
         <c:when test="${not empty studyNotes}">

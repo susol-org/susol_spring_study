@@ -1,15 +1,18 @@
 package com.susol.susolstudy.service;
 
+import com.susol.susolstudy.common.aop.RequiredStudyMember;
 import com.susol.susolstudy.dao.StudyMemberRepository;
 import com.susol.susolstudy.dao.StudyNoteRepository;
 import com.susol.susolstudy.dao.UserRepository;
-import com.susol.susolstudy.model.dto.StudyNoteDetailResponseDTO;
-import com.susol.susolstudy.model.dto.StudyNoteResponseDTO;
+import com.susol.susolstudy.model.dto.*;
+import com.susol.susolstudy.model.entity.StudyMember;
 import com.susol.susolstudy.model.entity.StudyNote;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.mapping.Join;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,5 +43,27 @@ public class StudyNoteService {
 
         return StudyNoteDetailResponseDTO.entityOf(studyNote);
 
+    }
+
+    @Transactional(readOnly = true)
+    public List<JoinStudyResponseDTO> getJoinStudy(String userEmailId) {
+        List<StudyMember> joinStudy = studyMemberRepository.findAllByUser_UserEmailId(userEmailId);
+        if(joinStudy == null || joinStudy.isEmpty()) throw new AccessDeniedException("참여한 스터디가 없습니다.");
+
+        return joinStudy.stream().map(JoinStudyResponseDTO::entityOf).toList();
+    }
+
+    @Transactional
+    public void studyNoteWrite(String userEmailId, StudyNoteWriteRequestDTO studyNoteWriteDTO) {
+        StudyMember studyMember =
+                studyMemberRepository.findByStudy_StudyIdAndUser_UserEmailId(
+                        studyNoteWriteDTO.getStudyId(),
+                        userEmailId
+                ).orElseThrow(() -> new AccessDeniedException("접근 권한이 없습니다."));
+
+        StudyNote studyNote =
+                StudyNote.create(studyMember.getUser(), studyMember.getStudy(), studyNoteWriteDTO);
+
+        studyNoteRepository.save(studyNote);
     }
 }
