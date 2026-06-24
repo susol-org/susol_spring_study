@@ -34,7 +34,7 @@
     <section>
         <ul class="content-ul">
             <li>
-                <a href="#">스터디 목록</a>
+                <a href="<c:url value='/studies' />">스터디 목록</a>
             </li>
             <li>
                 <a href="<c:url value='/study/post' />">스터디 게시판</a>

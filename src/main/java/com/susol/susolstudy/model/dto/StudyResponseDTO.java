@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,6 +18,8 @@ public class StudyResponseDTO {
     private int currentMemberCount;
     private int maxMemberCount;
     private RecruitStatus recruitStatus;
+    private LocalDateTime studyCreatedAt;
+    private LocalDateTime studyEndDate;
 
     public static StudyResponseDTO entityOf(Study study) {
         return new StudyResponseDTO(
@@ -24,7 +28,9 @@ public class StudyResponseDTO {
                 study.getStudyDescription(),
                 study.getCurrentMemberCount(),
                 study.getMaxMemberCount(),
-                study.getRecruitStatus()
+                study.getRecruitStatus(),
+                study.getStudyCreatedAt(),
+                study.getStudyEndDate()
         );
     }
 }

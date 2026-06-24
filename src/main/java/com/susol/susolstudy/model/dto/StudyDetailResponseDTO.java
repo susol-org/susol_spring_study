@@ -1,5 +1,6 @@
 package com.susol.susolstudy.model.dto;
 
+import com.susol.susolstudy.model.entity.Category;
 import com.susol.susolstudy.model.entity.RecruitStatus;
 import com.susol.susolstudy.model.entity.Study;
 import com.susol.susolstudy.model.entity.StudyMember;
@@ -19,6 +20,7 @@ public class StudyDetailResponseDTO {
     private String studyDescription;
     private int currentMemberCount;
     private int maxMemberCount;
+    private Category category;
     private RecruitStatus recruitStatus;
     private LocalDateTime studyEndDate;
     private List<MemberResponseDTO> members;
@@ -34,6 +36,7 @@ public class StudyDetailResponseDTO {
                 study.getStudyDescription(),
                 study.getCurrentMemberCount(),
                 study.getMaxMemberCount(),
+                study.getCategory(),
                 study.getRecruitStatus(),
                 study.getStudyEndDate(),
                 members

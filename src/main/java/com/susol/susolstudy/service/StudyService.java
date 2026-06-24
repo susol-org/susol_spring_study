@@ -37,6 +37,7 @@ public class StudyService {
                 .studyDescription(studyRequest.getStudyDescription())
                 .maxMemberCount(studyRequest.getMaxMemberCount())
                 .currentMemberCount(1)
+                .category(studyRequest.getCategory())
                 .recruitStatus(RecruitStatus.RECRUIT)
                 .studyEndDate(studyRequest.getStudyEndDate())
                 .studyCreatedAt(LocalDateTime.now())
@@ -71,7 +72,8 @@ public class StudyService {
                 studyRequest.getStudyTitle(),
                 studyRequest.getStudyDescription(),
                 studyRequest.getMaxMemberCount(),
-                studyRequest.getStudyEndDate()
+                studyRequest.getStudyEndDate(),
+                studyRequest.getCategory()
         );
     }
 

@@ -27,6 +27,9 @@ public class Study {
     private int currentMemberCount;
 
     @Enumerated(value = EnumType.STRING)
+    private Category category;
+
+    @Enumerated(value = EnumType.STRING)
     private RecruitStatus recruitStatus;
 
     private LocalDateTime studyStartDate;
@@ -52,11 +55,12 @@ public class Study {
         this.currentMemberCount--;
     }
 
-    public void update(String studyTitle, String studyDescription, int maxMemberCount, LocalDateTime studyEndDate) {
+    public void update(String studyTitle, String studyDescription, int maxMemberCount, LocalDateTime studyEndDate, Category category) {
         this.studyTitle = studyTitle;
         this.studyDescription = studyDescription;
         this.maxMemberCount = maxMemberCount;
         this.studyEndDate = studyEndDate;
+        this.category = category;
         this.studyUpdatedAt = LocalDateTime.now();
     }
 }

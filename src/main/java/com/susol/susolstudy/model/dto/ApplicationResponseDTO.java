@@ -10,12 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApplicationResponseDTO {
+    private int applicationId;
     private String username;
     private String message;
     private ApplicationStatus applicationStatus;
 
     public static ApplicationResponseDTO entityOf(StudyApplication studyApplication){
-        return new ApplicationResponseDTO(studyApplication.getUser().getUserName(), studyApplication.getMessage(), studyApplication.getStatus());
+        return new ApplicationResponseDTO(studyApplication.getApplicationId(), studyApplication.getUser().getUserName(), studyApplication.getMessage(), studyApplication.getStatus());
     }
 }
 
