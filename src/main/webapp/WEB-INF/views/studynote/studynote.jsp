@@ -21,6 +21,19 @@
     <a href="/note/write"><button>작성하기</button></a>
     <a href="/note/member"><button>멤버 스터디노트 보기</button></a>
     <hr>
+
+    <form method="get" action="/note">
+        <input type="text" name="keyword" value="${keyword}" placeholder="제목 검색">
+        <select name="studyId">
+            <option value="0">전체 스터디</option>
+            <c:forEach var="study" items="${joinStudy}">
+                <option value="${study.studyId}" ${study.studyId == selectedStudyId ? 'selected' : ''}>${study.studyTitle}</option>
+            </c:forEach>
+        </select>
+        <button type="submit">검색</button>
+    </form>
+    <hr>
+
     <c:choose>
         <c:when test="${not empty studyNotes}">
             <table>
@@ -55,9 +68,10 @@
         <c:set var="groupStart" value="${currentPage - (currentPage % 5)}" />
         <c:set var="groupEnd" value="${groupStart + 4 < totalPages - 1 ? groupStart + 4 : totalPages - 1}" />
 
+        <c:set var="searchParams" value="&keyword=${keyword}&studyId=${selectedStudyId}" />
         <div class="pagination">
             <c:if test="${groupStart > 0}">
-                <a href="/note?page=${groupStart - 1}">이전</a>
+                <a href="/note?page=${groupStart - 1}${searchParams}">이전</a>
             </c:if>
 
             <c:forEach begin="${groupStart}" end="${groupEnd}" var="i">
@@ -66,13 +80,13 @@
                         <strong>${i + 1}</strong>
                     </c:when>
                     <c:otherwise>
-                        <a href="/note?page=${i}">${i + 1}</a>
+                        <a href="/note?page=${i}${searchParams}">${i + 1}</a>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
 
             <c:if test="${groupEnd < totalPages - 1}">
-                <a href="/note?page=${groupEnd + 1}">다음</a>
+                <a href="/note?page=${groupEnd + 1}${searchParams}">다음</a>
             </c:if>
         </div>
     </c:if>

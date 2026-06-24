@@ -3,7 +3,10 @@ package com.susol.susolstudy.service;
 import com.susol.susolstudy.dao.StudyMemberRepository;
 import com.susol.susolstudy.dao.StudyNoteRepository;
 import com.susol.susolstudy.dao.UserRepository;
-import com.susol.susolstudy.model.dto.*;
+import com.susol.susolstudy.model.dto.JoinStudyResponseDTO;
+import com.susol.susolstudy.model.dto.StudyNoteDetailResponseDTO;
+import com.susol.susolstudy.model.dto.StudyNoteResponseDTO;
+import com.susol.susolstudy.model.dto.StudyNoteWriteRequestDTO;
 import com.susol.susolstudy.model.entity.StudyMember;
 import com.susol.susolstudy.model.entity.StudyNote;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,14 +27,11 @@ public class StudyNoteService {
     private final UserRepository userRepository;
     private final StudyMemberRepository studyMemberRepository;
 
-    @Transactional
-    public Page<StudyNoteResponseDTO> getAllStudyNote(String userEmailId, Pageable pageable) {
-        return studyNoteRepository.findAllByUser_UserEmailId(userEmailId, pageable)
-                                                    .map(StudyNoteResponseDTO::entityOf);
-
-//        return studyNoteList.stream()
-//                            .map(StudyNoteResponseDTO::entityOf)
-//                            .toList();
+    @Transactional(readOnly = true)
+    public Page<StudyNoteResponseDTO> getAllStudyNote(String userEmailId, String keyword,
+                                                        Integer studyId, Pageable pageable) {
+        return studyNoteRepository.searchStudyNotes(userEmailId, keyword, studyId, pageable)
+                                                            .map(StudyNoteResponseDTO::entityOf);
     }
 
     @Transactional(readOnly = true)
@@ -50,6 +50,14 @@ public class StudyNoteService {
     public List<JoinStudyResponseDTO> getJoinStudy(String userEmailId) {
         List<StudyMember> joinStudy = studyMemberRepository.findAllByUser_UserEmailId(userEmailId);
         if(joinStudy == null || joinStudy.isEmpty()) throw new AccessDeniedException("참여한 스터디가 없습니다.");
+
+        return joinStudy.stream().map(JoinStudyResponseDTO::entityOf).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<JoinStudyResponseDTO> getJoinStudyOrEmpty(String userEmailId) {
+        List<StudyMember> joinStudy = studyMemberRepository.findAllByUser_UserEmailId(userEmailId);
+        if(joinStudy.isEmpty()) return List.of();
 
         return joinStudy.stream().map(JoinStudyResponseDTO::entityOf).toList();
     }

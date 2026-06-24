@@ -27,17 +27,21 @@ public class StudyNoteController {
     public String studyNotePage(@AuthenticationPrincipal UserDetails user,
                                 @RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "5") int size,
-                                                                    Model model) {
+                                @RequestParam(required = false) String keyword,
+                                @RequestParam(required = false) Integer studyId,
+                                Model model) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("studyNoteId").descending());
-        Page<StudyNoteResponseDTO> studyNotes = service.getAllStudyNote(user.getUsername(), pageable);
+        Page<StudyNoteResponseDTO> studyNotes = service.getAllStudyNote(user.getUsername(), keyword, studyId, pageable);
+        List<JoinStudyResponseDTO> joinStudies = service.getJoinStudyOrEmpty(user.getUsername());
 
         model.addAttribute("studyNotes", studyNotes.getContent());
         model.addAttribute("totalPages", studyNotes.getTotalPages());
         model.addAttribute("currentPage", page);
+        model.addAttribute("joinStudy", joinStudies);
+        model.addAttribute("keyword", keyword != null ? keyword : "");
+        model.addAttribute("selectedStudyId", studyId != null ? studyId : 0);
 
         return "studynote/studynote";
-//        List<StudyNoteResponseDTO> allStudyNote = service.getAllStudyNote(user.getUsername());
-//        model.addAttribute("studyNotes", allStudyNote);
     }
 
     @GetMapping("/{studyNoteId}")

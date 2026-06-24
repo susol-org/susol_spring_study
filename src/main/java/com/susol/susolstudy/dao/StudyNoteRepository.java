@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface StudyNoteRepository extends JpaRepository<StudyNote, Integer> {
+public interface StudyNoteRepository extends JpaRepository<StudyNote, Integer>, StudyNoteRepositoryCustom {
 
     Page<StudyNote> findAllByUser_UserEmailId(String userEmailId, Pageable pageable);
 
