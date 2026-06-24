@@ -43,6 +43,7 @@ public class StudyNoteController {
     public String studyNoteDetail(@AuthenticationPrincipal UserDetails user,
                                                     @PathVariable int studyNoteId, Model model) {
         StudyNoteDetailResponseDTO studyNote = service.studyNoteDetail(user.getUsername(), studyNoteId);
+//        boolean updateAuth - service.checkMyStudyNote(user.getUsername(), studyNoteId);
         model.addAttribute("studyNote", studyNote);
         return "studynote/studynotedetail";
     }
@@ -61,9 +62,21 @@ public class StudyNoteController {
         return "redirect:/note";
     }
 
-    // other == 다른사람 스터디 노트
-//    @GetMapping("/other")
-//    public String otherStudyNotePage(@AuthenticationPrincipal UserDetails user, Model model) {
-//
-//    }
+    // 다른사람 스터디 노트 조회
+    @GetMapping("/member")
+    public String memberStudyNotePage(@AuthenticationPrincipal UserDetails user,
+                                     @RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "5") int size, Model model) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("studyNoteId").descending());
+        Page<StudyNoteResponseDTO> memberStudyNotes =
+                            service.getAllMemberStudyNote(user.getUsername(), pageable);
+
+
+        model.addAttribute("studyNotes", memberStudyNotes.getContent());
+        model.addAttribute("totalPages", memberStudyNotes.getTotalPages());
+        model.addAttribute("currentPage", page);
+
+        return "studynote/memberstudynote";
+    }
 }

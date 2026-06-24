@@ -1,6 +1,5 @@
 package com.susol.susolstudy.service;
 
-import com.susol.susolstudy.common.aop.RequiredStudyMember;
 import com.susol.susolstudy.dao.StudyMemberRepository;
 import com.susol.susolstudy.dao.StudyNoteRepository;
 import com.susol.susolstudy.dao.UserRepository;
@@ -9,7 +8,6 @@ import com.susol.susolstudy.model.entity.StudyMember;
 import com.susol.susolstudy.model.entity.StudyNote;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.mapping.Join;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -42,8 +40,11 @@ public class StudyNoteService {
                                     .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게시물입니다."));
 
         return StudyNoteDetailResponseDTO.entityOf(studyNote);
-
     }
+
+//    public int checkMyStudyNote(String username, int studyNoteId) {
+//
+//    }
 
     @Transactional(readOnly = true)
     public List<JoinStudyResponseDTO> getJoinStudy(String userEmailId) {
@@ -66,4 +67,12 @@ public class StudyNoteService {
 
         studyNoteRepository.save(studyNote);
     }
+
+    public Page<StudyNoteResponseDTO> getAllMemberStudyNote(String userEmailId, Pageable pageable) {
+        Page<StudyNote> memberStudyNoteList =
+                            studyNoteRepository.findMemberStudyNotes(userEmailId, pageable);
+
+        return memberStudyNoteList.map(StudyNoteResponseDTO::entityOf);
+    }
+
 }
