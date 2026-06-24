@@ -25,6 +25,7 @@ public class ApplicationService {
     private final UserRepository userRepository;
     private final StudyMemberRepository studyMemberRepository;
 
+    @Transactional
     public void createUserStudyApplication(String userEmailId, String message, int studyId) {
         if (studyApplicatiobRepoitory.existsByStudy_StudyIdAndUser_userEmailId(studyId, userEmailId)) {
             throw new RuntimeException("이미 지원했습니다.");
@@ -45,6 +46,7 @@ public class ApplicationService {
         studyApplicatiobRepoitory.save(application);
     }
 
+    @Transactional
     public void cancelStudyApplication(String userEmailId, int studyId) {
         StudyApplication application = studyApplicatiobRepoitory.findByStudy_StudyIdAndUser_userEmailId(studyId, userEmailId)
                 .orElseThrow(() -> new RuntimeException("지원 내역이 없습니다."));
@@ -69,6 +71,7 @@ public class ApplicationService {
         application.updateStatus(ApplicationStatus.REJECTED);
     }
 
+    @Transactional(readOnly = true)
     public List<ApplicationResponseDTO> selectMemberApplication(String userEmailId, int studyId) {
         boolean isMember = studyMemberRepository.existsByStudy_StudyIdAndUser_UserEmailId(studyId, userEmailId);
         if (!isMember) {
