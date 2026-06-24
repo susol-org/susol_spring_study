@@ -77,6 +77,7 @@ public class StudyService {
         );
     }
 
+    @Transactional
     public List<StudyResponseDTO> selectStudy() {
         List<Study> studyList = studyRepository.findAllByDeletedAtIsNull();
 

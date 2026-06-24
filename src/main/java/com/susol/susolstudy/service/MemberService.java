@@ -15,6 +15,7 @@ import java.util.List;
 public class MemberService {
     private final StudyMemberRepository studyMemberRepository;
 
+    @Transactional(readOnly = true)
     public List<MemberResponseDTO> selectMember(String userEmailId, int studyId) {
         boolean isMember = studyMemberRepository.existsByStudy_StudyIdAndUser_UserEmailId(studyId, userEmailId);
     if (!isMember) {
