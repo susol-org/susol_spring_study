@@ -34,6 +34,13 @@
 
         <div class="note-actions">
             <a href="/note">목록으로</a>
+            <c:if test="${updateAuth}">
+                <a href="/note/${studyNote.studyNoteId}/edit">수정</a>
+                <form action="/note/${studyNote.studyNoteId}/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                    <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+                </form>
+            </c:if>
         </div>
     </div>
 

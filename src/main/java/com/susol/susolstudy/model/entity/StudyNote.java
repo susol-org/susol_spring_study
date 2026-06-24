@@ -44,6 +44,10 @@ public class StudyNote {
 
     private LocalDateTime studyNoteUpdatedAt;
 
+    public void setStudyNoteIsDelete() {
+        this.studyNoteIsDelete = true;
+    }
+
     public static StudyNote create(User user, Study study, StudyNoteWriteRequestDTO studyNoteWriteDTO) {
         StudyNote studyNote = new StudyNote();
         studyNote.user = user;

@@ -15,6 +15,8 @@ public interface StudyNoteRepository extends JpaRepository<StudyNote, Integer> {
 
     Optional<StudyNote> findByStudyNoteIdAndUser_UserEmailId(int studyNoteId, String username);
 
+    boolean existsByStudyNoteIdAndUser_UserEmailId(int studyNoteId, String userEmailId);
+
     @Query(
         value = """
             SELECT sn FROM StudyNote sn

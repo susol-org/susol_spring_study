@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -43,8 +44,11 @@ public class StudyNoteController {
     public String studyNoteDetail(@AuthenticationPrincipal UserDetails user,
                                                     @PathVariable int studyNoteId, Model model) {
         StudyNoteDetailResponseDTO studyNote = service.studyNoteDetail(user.getUsername(), studyNoteId);
-//        boolean updateAuth - service.checkMyStudyNote(user.getUsername(), studyNoteId);
+        boolean updateAuth = service.checkMyStudyNote(user.getUsername(), studyNoteId);
+
         model.addAttribute("studyNote", studyNote);
+        model.addAttribute("updateAuth", updateAuth);
+
         return "studynote/studynotedetail";
     }
 
@@ -78,5 +82,14 @@ public class StudyNoteController {
         model.addAttribute("currentPage", page);
 
         return "studynote/memberstudynote";
+    }
+
+    @PostMapping("/{studyNoteId}/delete")
+    public String deleteStudyNote(@AuthenticationPrincipal UserDetails user,
+                                  @PathVariable int studyNoteId,
+                                  RedirectAttributes redirectAttributes) {
+        service.deleteStudyNote(user.getUsername(), studyNoteId);
+        redirectAttributes.addFlashAttribute("msg", "삭제되었습니다.");
+        return "redirect:/note";
     }
 }

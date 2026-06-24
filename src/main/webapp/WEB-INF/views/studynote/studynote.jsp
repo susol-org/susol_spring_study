@@ -14,6 +14,9 @@
 </head>
 <body>
     <%@ include file="../common/header.jsp" %>
+    <c:if test="${not empty msg}">
+        <script>alert('${msg}');</script>
+    </c:if>
     <h2>study note!</h2>
     <a href="/note/write"><button>작성하기</button></a>
     <a href="/note/member"><button>멤버 스터디노트 보기</button></a>

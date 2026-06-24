@@ -42,9 +42,9 @@ public class StudyNoteService {
         return StudyNoteDetailResponseDTO.entityOf(studyNote);
     }
 
-//    public int checkMyStudyNote(String username, int studyNoteId) {
-//
-//    }
+    public boolean checkMyStudyNote(String userEmailId, int studyNoteId) {
+        return studyNoteRepository.existsByStudyNoteIdAndUser_UserEmailId(studyNoteId, userEmailId);
+    }
 
     @Transactional(readOnly = true)
     public List<JoinStudyResponseDTO> getJoinStudy(String userEmailId) {
@@ -68,6 +68,7 @@ public class StudyNoteService {
         studyNoteRepository.save(studyNote);
     }
 
+    @Transactional(readOnly = true)
     public Page<StudyNoteResponseDTO> getAllMemberStudyNote(String userEmailId, Pageable pageable) {
         Page<StudyNote> memberStudyNoteList =
                             studyNoteRepository.findMemberStudyNotes(userEmailId, pageable);
@@ -75,4 +76,12 @@ public class StudyNoteService {
         return memberStudyNoteList.map(StudyNoteResponseDTO::entityOf);
     }
 
+    @Transactional
+    public void deleteStudyNote(String userEmailId, int studyNoteId) {
+        StudyNote studyNote
+                = studyNoteRepository.findByStudyNoteIdAndUser_UserEmailId(studyNoteId, userEmailId)
+                        .orElseThrow(() -> new EntityNotFoundException("게시물이 없습니다."));
+
+        studyNote.setStudyNoteIsDelete();
+    }
 }
