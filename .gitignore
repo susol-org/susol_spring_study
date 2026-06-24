@@ -44,3 +44,4 @@ application.properties
 data.sql
 application-local.yaml
 application-prod.yaml
+src/main/generated/
