@@ -1,5 +1,6 @@
 package com.susol.susolstudy.dao;
 
+import com.susol.susolstudy.model.entity.Study;
 import com.susol.susolstudy.model.entity.StudyMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 

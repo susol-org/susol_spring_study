@@ -66,7 +66,8 @@ public class PostController {
     @PostMapping("/{studyId}/post")
     public ResponseEntity<Void> writePost(@PathVariable int studyId,
                             @AuthenticationPrincipal UserDetails user,
-                            @ModelAttribute PostWriteRequestDTO postWriteDTO, MultipartFile[] uploadFiles) {
+                            @ModelAttribute PostWriteRequestDTO postWriteDTO,
+                            @RequestParam(value = "uploadFiles", required = false) MultipartFile[] uploadFiles) {
 
         service.writePost(studyId, user.getUsername(), postWriteDTO, uploadFiles);
 

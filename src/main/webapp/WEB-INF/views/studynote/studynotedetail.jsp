@@ -4,6 +4,7 @@
 <head>
     <title>${studyNote.studyNoteTitle}</title>
     <link rel="stylesheet" href="/css/studynote/studynotedetail.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 </head>
 <body>
     <%@ include file="../common/header.jsp" %>
@@ -33,10 +34,18 @@
 
         <div class="note-actions">
             <a href="/note">목록으로</a>
+            <c:if test="${updateAuth}">
+                <a href="/note/${studyNote.studyNoteId}/edit">수정</a>
+                <form action="/note/${studyNote.studyNoteId}/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                    <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+                </form>
+            </c:if>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/editorjs-html@3.4.3/build/edjsHTML.browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>
         const raw = document.getElementById('contentData').textContent.trim();
         const container = document.getElementById('noteContent');
@@ -48,6 +57,7 @@
         } catch (e) {
             container.innerText = raw;
         }
+        hljs.highlightAll();
     </script>
 </body>
 </html>
