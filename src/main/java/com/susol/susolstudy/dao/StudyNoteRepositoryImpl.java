@@ -34,6 +34,8 @@ public class StudyNoteRepositoryImpl implements StudyNoteRepositoryCustom{
 
         List<StudyNote> content = queryFactory
                 .selectFrom(studyNote)
+                .join(studyNote.user).fetchJoin()
+                .join(studyNote.study).fetchJoin()
                 .where(builder)
                 .orderBy(studyNote.studyNoteId.desc())
                 .offset(pageable.getOffset())
