@@ -77,7 +77,7 @@ public class StudyService {
         );
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<StudyResponseDTO> selectStudy() {
         List<Study> studyList = studyRepository.findAllByDeletedAtIsNull();
 
@@ -86,7 +86,7 @@ public class StudyService {
                 .toList();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public StudyDetailResponseDTO getStudyDetail(int studyId) {
         Study study = studyRepository.findById(studyId)
                 .orElseThrow(() -> new RuntimeException("스터디가 존재하지 않습니다."));
